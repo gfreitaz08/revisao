@@ -37,11 +37,11 @@ export default function App() {
       mascote: "Urubu",
       imagem: "https://i.pinimg.com/236x/16/db/d2/16dbd20fd582e025dc54cc3fbd1839c9.jpg",
       jogadores: [
-        { nome: "Gabriel Barbosa", numero: 9, imagem: "https://i.pinimg.com/474x/1d/9f/5d/1d9f5de58831c9913f925a7155bdc7da.jpg" },
+        { nome: "Pedro", numero: 9, imagem: "https://i.pinimg.com/474x/c0/81/13/c08113b5de202f10d0bf8375246c60ca.jpg" },
         { nome: "Arrascaeta", numero: 14, imagem: "https://i.pinimg.com/474x/cf/ad/d9/cfadd92de5e581ac5505e3d325f8b9b2.jpg" },
         { nome: "Everton Ribeiro", numero: 7, imagem: "https://i.pinimg.com/236x/39/1a/27/391a275fb7e0b018f2900f0f9fc9331b.jpg" },
         { nome: "Plata", numero: 50, imagem: "https://i.pinimg.com/474x/74/5c/ac/745cac71c034579b042e60ec9a014d9c.jpg" },
-        { nome: "Pedro", numero: 21, imagem: "https://i.pinimg.com/474x/79/e6/18/79e6185649fa3667b3ed3beef3e1ae94.jpg" },
+        { nome: "Cebolinha", numero: 11 , imagem: "https://i.pinimg.com/236x/96/3f/96/963f96689616f724b4342db2a37b7d73.jpg" },
       ],
     },
     {
@@ -50,7 +50,7 @@ export default function App() {
       mascote: "Galo",
       imagem: "https://i.pinimg.com/236x/0b/00/31/0b0031de783db64c86272078ba9eb72e.jpg",
       jogadores: [
-      { nome: "Hulk", numero: 7, imagem: "https://i.pinimg.com/474x/ff/9b/38/ff9b384ca6fd51ce56afbdfe14e5b67d.jpg" },
+      { nome: "Hulk", numero: 7, imagem: "https://i.pinimg.com/736x/33/7a/3e/337a3ed3bd138e395297c7c71dee630a.jpg" },
       { nome: "Nacho Fernández", numero: 26, imagem: "https://i.pinimg.com/474x/63/fa/af/63faaf414f6278f7187f73bad233ccf2.jpg" },
       { nome: "Everson", numero: 22, imagem: "https://i.pinimg.com/236x/2d/2f/f8/2d2ff8cad95ac498721d23269ba9540c.jpg" },
       { nome: "Keno", numero: 11, imagem: "https://i.pinimg.com/236x/6b/1c/c2/6b1cc2d9050291b69b7e6b3be1341a8a.jpg" },
