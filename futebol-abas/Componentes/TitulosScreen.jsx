@@ -37,7 +37,7 @@ export default function tituloScreen() {
         1990, 2006, 2013, 2022, 2024         
         </Paragraph>
     </Card.Content>
-    <Card.Cover style={{width: 350, height: 400}} source={{ uri: "https://i.pinimg.com/736x/f5/b1/49/f5b1495d974924e84683846c887715d4.jpg",}} />
+    <Card.Cover style={{width: 350, height: 400}} source={{ uri: "https://i.pinimg.com/736x/f5/b1/49/f5b1495d974924e84683846c887715d4.jpg ",}} />
 </Card>
 
       </View>
