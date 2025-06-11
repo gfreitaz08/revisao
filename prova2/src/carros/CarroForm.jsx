@@ -1,108 +1,146 @@
-import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button, Text, TextInput } from 'react-native-paper'
-import CarroService from './CarroService'
+import React, { useState } from 'react';
+import { View, Image, StyleSheet } from 'react-native';
+import { Button, TextInput, Text } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
+import CarroService from './CarroService';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function CarroForm({ navigation, route }) {
+  const carroAntigo = route.params || {};
 
-  const carroAntigo = route.params || {}
+  const [modelo, setModelo] = useState(carroAntigo.modelo || "");
+  const [ano, setAno] = useState(carroAntigo.ano || "");
+  const [cor, setCor] = useState(carroAntigo.cor || "");
+  const [peca, setPeca] = useState(carroAntigo.peca || "");
+  const [imagem, setImagem] = useState(carroAntigo.imagem || null);
 
-  const [modelo, setModelo] = useState(carroAntigo.modelo || "")
-  const [ano, setAno] = useState(carroAntigo.ano || "")
-  const [cor, setCor] = useState(carroAntigo.cor || "")
-  const [peca, setPeca] = useState(carroAntigo.peca || "")
+  async function abrirCamera() {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permissão para acessar a câmera é necessária!');
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setImagem(uri);
+    }
+  }
+
+  async function escolherDaGaleria() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permissão para acessar a galeria é necessária!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setImagem(uri);
+    }
+  }
 
   async function salvar() {
-    console.log("Salvar chamado com dados:", { modelo, ano, cor, peca });
-
+    const carro = { modelo, ano, cor, peca, imagem };
     if (!modelo || !ano || !cor || !peca) {
       alert('Preencha todos os campos!');
       return;
     }
 
-    let carro = { modelo, ano, cor, peca };
-
-    try {
-      if (carroAntigo.id) {
-        carro.id = carroAntigo.id;
-        await CarroService.atualizar(carro);
-        alert('Pedido alterado com sucesso!!!');
-      } else {
-        await CarroService.salvar(carro);
-        alert('Pedido cadastrado com sucesso!!!');
-      }
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'CarroLista' }]
-      });
-    } catch (error) {
-      console.error('Erro ao salvar:', error);
-      alert('Erro ao salvar dados, veja o console.');
+    if (carroAntigo.id) {
+      carro.id = carroAntigo.id;
+      await CarroService.atualizar(carro);
+      alert('Carro alterado com sucesso!');
+    } else {
+      await CarroService.salvar(carro);
+      alert('Carro cadastrado com sucesso!');
     }
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'CarroLista' }],
+    });
   }
 
   return (
+    <ScrollView> 
     <View style={styles.container}>
-      <Text variant='titleLarge'>Informe os dados do pedido:</Text>
-
-      <Text variant='titleLarge'>ID Pedido: {carroAntigo.id || 'NOVO'}</Text>
+      <Text variant='titleLarge'>Cadastro de Carro</Text>
 
       <TextInput
-        style={styles.input}
-        mode='outlined'
-        label="Modelo"
-        placeholder='Informe o modelo'
-        value={modelo}
-        onChangeText={setModelo}
+        label="Modelo" value={modelo} onChangeText={setModelo}
+        style={styles.input} mode="outlined"
       />
-
       <TextInput
-        style={styles.input}
-        mode='outlined'
-        label="Ano"
-        placeholder='Informe o ano'
-        value={ano}
-        onChangeText={setAno}
-        keyboardType='numeric'
+        label="Ano" value={ano} onChangeText={setAno}
+        style={styles.input} mode="outlined" keyboardType="numeric"
       />
-
       <TextInput
-        style={styles.input}
-        mode='outlined'
-        label="Cor"
-        placeholder='Informe a cor'
-        value={cor}
-        onChangeText={setCor}
+        label="Cor" value={cor} onChangeText={setCor}
+        style={styles.input} mode="outlined"
       />
-
       <TextInput
-        style={styles.input}
-        mode='outlined'
-        label="Peça"
-        placeholder='Informe a peça'
-        value={peca}
-        onChangeText={setPeca}
+        label="Peça" value={peca} onChangeText={setPeca}
+        style={styles.input} mode="outlined"
       />
 
       <Button
+        icon="camera"
+        mode="outlined"
+        onPress={abrirCamera}
         style={styles.input}
-        mode='contained'
+      >
+        Tirar Foto
+      </Button>
+
+      <Button
+        icon="image"
+        mode="outlined"
+        onPress={escolherDaGaleria}
+        style={styles.input}
+      >
+        Escolher da Galeria
+      </Button>
+
+      {imagem && <Image source={{ uri: imagem }} style={styles.imagemPreview} />}
+
+      <Button
+        mode="contained"
         onPress={salvar}
+        style={styles.input}
       >
         Salvar
       </Button>
     </View>
-  )
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 10
+    padding: 20,
+    alignItems: 'center'
   },
   input: {
-    width: '90%',
+    width: '100%',
     marginTop: 10
+  },
+  imagemPreview: {
+    width: '100%',
+    height: 200,
+    marginTop: 10,
+    borderRadius: 10
   }
-})
+});

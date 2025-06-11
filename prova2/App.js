@@ -1,63 +1,46 @@
-import React from 'react'
-import { PaperProvider } from 'react-native-paper'
-import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createStackNavigator } from '@react-navigation/stack'
-import { Ionicons } from '@expo/vector-icons'
-import Teste from './src/teste/Teste'
-import CarroLista from './src/carros/CarroLista'
-import CarroForm from './src/carros/CarroForm'
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { PaperProvider } from 'react-native-paper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import CarroStack from './src/carros/CarroStack';
+import CameraScreen from './src/carros/CameraScreen';
+import { Ionicons } from '@expo/vector-icons';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const Tab = createBottomTabNavigator()
-const Stack = createStackNavigator()
-
-
-function CarrosStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="CarroLista"
-        component={CarroLista}
-        options={{ title: 'Lista de Pedidos', headerTitleAlign: 'center' }}
-      />
-      <Stack.Screen
-        name="CarroForm"
-        component={CarroForm}
-        options={{ title: 'Cadastro de Pedido', headerTitleAlign: 'center' }}
-      />
-    </Stack.Navigator>
-  )
-}
-
-
-function Teste() {
-  return null 
-}
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    
     <PaperProvider>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName
+        <Tab.Navigator>
 
-              if (route.name === 'Carros') {
-                iconName = 'car'
-              } else if (route.name === 'Teste') {
-                iconName = 'person'
-              }
+          <Tab.Screen 
+            name="CarroStack" 
+            component={CarroStack}
+            options={{
+              title: 'Cadastro',
+              headerTitleAlign: 'center',
+              headerStyle: { backgroundColor: 'red' },
+              tabBarIcon: ({ color, size }) => <Ionicons name="car" color={color} size={size} />
+            }}
+          />
 
-              return <Ionicons name={iconName} size={size} color={color} />
-            },
-            headerShown: false,
-          })}
-        >
-          <Tab.Screen name="Carros" component={CarrosStack} />
-          <Tab.Screen name="Teste" component={Teste} />
+          <Tab.Screen 
+            name="CameraScreen" 
+            component={CameraScreen}
+            options={{
+              title: 'Câmera',
+              headerTitleAlign: 'center',
+              headerStyle: { backgroundColor: 'blue' },
+              tabBarIcon: ({ color, size }) => <Ionicons name="camera" color={color} size={size} />
+            }}
+          />
+
         </Tab.Navigator>
       </NavigationContainer>
     </PaperProvider>
-  )
+  
+  );
 }
